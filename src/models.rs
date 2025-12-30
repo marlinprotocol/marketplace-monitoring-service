@@ -1,5 +1,5 @@
+use crate::schema::{operator_endpoint_errors, reachability_errors};
 use diesel::prelude::*;
-use crate::schema::{reachability_errors, operator_endpoint_errors};
 
 #[derive(Queryable, Selectable, Debug)]
 #[diesel(table_name = reachability_errors)]
