@@ -1,8 +1,8 @@
-use crate::schema::{operator_endpoint_errors, reachability_errors};
+use crate::schema::{bsc_operator_errors, bsc_reachability_errors};
 use diesel::prelude::*;
 
 #[derive(Queryable, Selectable, Debug)]
-#[diesel(table_name = reachability_errors)]
+#[diesel(table_name = bsc_reachability_errors)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct ReachabilityError {
     pub id: i32,
@@ -14,7 +14,7 @@ pub struct ReachabilityError {
 }
 
 #[derive(Insertable)]
-#[diesel(table_name = reachability_errors)]
+#[diesel(table_name = bsc_reachability_errors)]
 pub struct NewReachabilityError {
     pub job: String,
     pub operator: String,
@@ -40,14 +40,14 @@ impl NewReachabilityError {
     }
 
     pub fn insert(&self, conn: &mut PgConnection) -> QueryResult<ReachabilityError> {
-        diesel::insert_into(reachability_errors::table)
+        diesel::insert_into(bsc_reachability_errors::table)
             .values(self)
             .get_result(conn)
     }
 }
 
 #[derive(Queryable, Selectable, Debug)]
-#[diesel(table_name = operator_endpoint_errors)]
+#[diesel(table_name = bsc_operator_errors)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct OperatorEndpointError {
     pub id: i32,
@@ -59,7 +59,7 @@ pub struct OperatorEndpointError {
 }
 
 #[derive(Insertable)]
-#[diesel(table_name = operator_endpoint_errors)]
+#[diesel(table_name = bsc_operator_errors)]
 pub struct NewOperatorEndpointError {
     pub job: String,
     pub operator: String,
@@ -85,7 +85,7 @@ impl NewOperatorEndpointError {
     }
 
     pub fn insert(&self, conn: &mut PgConnection) -> QueryResult<OperatorEndpointError> {
-        diesel::insert_into(operator_endpoint_errors::table)
+        diesel::insert_into(bsc_operator_errors::table)
             .values(self)
             .get_result(conn)
     }

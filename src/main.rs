@@ -9,6 +9,7 @@ use ethers::prelude::*;
 use ethers::providers::{Http, Provider};
 use log::{error, info};
 use std::collections::HashMap;
+use std::env;
 use std::sync::Arc;
 use std::time::Duration as StdDuration;
 
@@ -26,6 +27,9 @@ async fn main() -> anyhow::Result<()> {
     env_logger::init();
 
     dotenvy::dotenv().ok();
+
+
+    let network = env::var("NETWORK").expect("NETWORK must be set");
 
     // Establish database connection pool
     let pool = establish_connection_pool();
@@ -167,7 +171,9 @@ async fn main() -> anyhow::Result<()> {
             }
 
             let pool_clone = pool.clone();
+            let network_clone = network.clone();
             tokio::spawn(async move {
+                let operator_network= &network_clone;
                 info!("Handling JobOpened event:");
                 info!("job: {:?}", job);
                 info!("owner: {:?}", owner);
@@ -236,7 +242,8 @@ async fn main() -> anyhow::Result<()> {
 
                 // Call the refresh API to verify IP is available
                 let refresh_url = format!(
-                    "https://sk.arb1.marlin.org/operators/jobs/refresh/ArbOne/{}",
+                    "https://sk.arb1.marlin.org/operators/jobs/refresh/{}/{}",
+                    operator_network,
                     job
                 );
                 info!("Calling refresh API: {}", refresh_url);

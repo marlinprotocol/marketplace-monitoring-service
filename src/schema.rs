@@ -1,5 +1,5 @@
 diesel::table! {
-    reachability_errors (id) {
+    bsc_reachability_errors (id) {
         id -> Int4,
         job -> Varchar,
         operator -> Varchar,
@@ -10,7 +10,7 @@ diesel::table! {
 }
 
 diesel::table! {
-    operator_endpoint_errors (id) {
+    bsc_operator_errors (id) {
         id -> Int4,
         job -> Varchar,
         operator -> Varchar,
